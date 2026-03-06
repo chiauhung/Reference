@@ -1,10 +1,15 @@
 # Reference
 
-Personal reference material and old projects from early career exploration (2017–2020).
+Personal reference material, tools, and old projects.
 
-Some are small but complete — a Flask NLP app, an Excel templating tool. The rest are archived reference notes from when I was learning systems, data engineering, and cloud infrastructure. Many of these exist because I ran into something during development, didn't fully understand it, and wrote it down.
+Some are active utilities I still use day-to-day. Others are older projects from early career exploration (2017–2020) — kept as a record.
 
-Not maintained. Kept as a record.
+---
+
+## Tools
+
+### [gcp-resource-audit](./gcp-resource-audit/)
+Bash + Python toolkit to export all GCP resources across environments, analyze them with timestamps, and compare sandbox/staging/production side by side. Output ends up as a Confluence inventory page.
 
 ---
 
