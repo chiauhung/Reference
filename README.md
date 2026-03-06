@@ -11,6 +11,9 @@ Some are active utilities I still use day-to-day. Others are older projects from
 ### [gcp-resource-audit](./gcp-resource-audit/)
 Bash + Python toolkit to export all GCP resources across environments, analyze them with timestamps, and compare sandbox/staging/production side by side. Output ends up as a Confluence inventory page.
 
+### [multi-semantic-release](./multi-semantic-release/)
+POC for running independent semantic versioning across multiple projects in a monorepo. Built on `python-semantic-release` v8 internals — each project gets its own CalVer tag, CHANGELOG, and GitHub release, triggered only when its files change.
+
 ---
 
 ## Projects
