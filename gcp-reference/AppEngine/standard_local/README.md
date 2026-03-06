@@ -29,25 +29,25 @@ This example code is executed in local computer using app engine standard enviro
 ```
 
 ### App Engine local dev UI
-![local ui](https://github.com/neurotichl/GCP/raw/master/img/local_gae1.PNG)
+![local ui](../../img/local_gae1.PNG)
 
 ### Insert data into datastore
-![call API](https://github.com/neurotichl/GCP/raw/master/img/local_gae2.PNG)
+![call API](../../img/local_gae2.PNG)
 - Datatstore UI
-![datastore](https://github.com/neurotichl/GCP/raw/master/img/local_gae_datastore.PNG)
+![datastore](../../img/local_gae_datastore.PNG)
 
 Note: Inserting into datastore in standard env must use the library [ndb](https://cloud.google.com/appengine/docs/standard/python/ndb/), google.cloud.datastore is not accepted and will raise [error](https://github.com/GoogleCloudPlatform/python-docs-samples/issues/1235) 
 
 
 ### Cron job scheduling
 - target: service name defined in `app.yaml`
-![cron](https://github.com/neurotichl/GCP/raw/master/img/local_gae_cron.PNG)
+![cron](../../img/local_gae_cron.PNG)
 
 ### Task queue
 - Task queue is currently not supported in app engine flex.
-![queue](https://github.com/neurotichl/GCP/raw/master/img/local_gae_queue.PNG)
-![queue2](https://github.com/neurotichl/GCP/raw/master/img/local_gae_queue2.PNG)
+![queue](../../img/local_gae_queue.PNG)
+![queue2](../../img/local_gae_queue2.PNG)
 
 ### Memcache
 - Temporary store value in cache in specified timeout.
-![memcache](https://github.com/neurotichl/GCP/raw/master/img/memcache.gif)
+![memcache](../../img/memcache.gif)
