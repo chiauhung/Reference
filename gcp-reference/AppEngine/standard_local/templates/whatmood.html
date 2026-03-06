@@ -1,0 +1,11 @@
+<html>
+	<body>
+		<form action='/mood' method='POST'>			
+			<p>Hi {{ name }}, how are you feeling?</p>
+			<input type="text" name="Name" value="{{ name }}" style="display:none">
+			<input type="text" name="mood">
+			<input type="submit" name="submit_mood" value="OK">
+		</form>
+
+	</body>
+</html>

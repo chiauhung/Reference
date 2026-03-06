@@ -1,0 +1,23 @@
+<html>
+	<header>
+		<script type="text/javascript">
+	  		function showBlock(){
+			  document.getElementById("new").style.display = "block";
+       		  document.getElementById("new2").style.display = "block";
+       		  document.getElementById("forgot").style.display = "none";
+			}
+  	</script>
+	</header>
+	<body>
+		<form action='/mood' method='POST'>			
+			<p>Hi {{ name }}, you was feeling {{ mood }}. How are you feeling now?</p>
+			<input type="text" name="type" value="Same" style="display:none" id="type">
+			<input type="text" name="Name" value="{{ name }}" style="display:none">
+			<input type="submit" name="submit_mood" value="Same">
+			<input type="button" onclick="showBlock()" value="Something else">
+			<input type="text" name="mood" value="{{ mood }}" style="display:none" id="new">
+			<input type="submit" name="submit_mood" value="Update" style="display:none" id="new2">
+			<input type="submit" name="submit_mood" value="Forget about me" id="forgot">
+		</form>
+	</body>
+</html>

@@ -1,0 +1,5 @@
+cron:
+- description: "Schedule to call /insert"
+  url: /insert
+  target: neurotic
+  schedule: every 5 minutes 

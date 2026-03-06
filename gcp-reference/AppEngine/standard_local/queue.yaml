@@ -1,0 +1,6 @@
+queue:
+- name: happyqueue
+  rate: 10/s
+
+
+# https://cloud.google.com/appengine/docs/standard/python/taskqueue/

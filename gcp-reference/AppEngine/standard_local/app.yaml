@@ -1,0 +1,22 @@
+service: neurotic
+runtime: python27
+threadsafe: true
+
+# List of libraries
+# https://cloud.google.com/appengine/docs/standard/python/tools/built-in-libraries-27
+libraries:
+- name: ssl
+  version: latest
+- name: numpy
+  version: latest
+- name: flask
+  version: latest
+- name: jinja2
+  version: latest
+- name: werkzeug
+  version: latest
+
+handlers:
+- url: .*
+  script: main.app
+  secure: always
