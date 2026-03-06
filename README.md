@@ -1,22 +1,25 @@
 # Reference
 
-A collection of old projects, notebooks, and snippets from 2017–2020. Not maintained — libraries and APIs referenced here may have changed or broken since. Kept as a record of early exploration.
+Old projects and notebooks from 2017–2020. Some are small but complete — a Flask NLP app, an Excel templating tool. The rest are archived reference material from early career exploration.
+
+Not maintained. Kept as a record.
 
 ---
 
 ## Projects
 
 ### [nlp-news-tagger](./nlp-news-tagger/)
-Flask app that tags news articles using SpaCy named entity recognition, navigable by tag. Built around 2019.
+Flask app that tags news articles using SpaCy NER, navigable by tag. Built around 2019.
 
 ### [excel-templating](./excel-templating/)
-Demo of pandas `ExcelWriter` for generating styled Excel documentation templates programmatically. Uses Hunter x Hunter character data as the example dataset.
+Pandas `ExcelWriter` demo for generating styled Excel documentation templates programmatically. Uses Hunter x Hunter character data as the example dataset. Built around 2019.
 
-### [big-data-etl](./big-data-etl/)
-Spark transformation notebooks and Flume configuration scripts from early data engineering work (2018–2019).
+---
 
-### [gcp-reference](./gcp-reference/)
-Reference notebooks for GCP services — BigQuery, Datastore, App Engine — from early GCP exploration (2018).
+## Archived
 
-### [snippets](./snippets/)
-Loose notebooks and scripts — Selenium, web scraping, geocoding, HDFS, Dremio setup, database utilities, Plotly basics.
+Older code kept for historical reference. Libraries and APIs may no longer work as-is.
+
+- [gcp-reference-2018](./archived/gcp-reference-2018/) — BigQuery, Datastore, App Engine notebooks
+- [spark-flume-etl-2018](./archived/spark-flume-etl-2018/) — PySpark transformation notebooks and Flume config generation
+- [snippets-2018](./archived/snippets-2018/) — Loose notebooks: Selenium, web scraping, geocoding, HDFS, Dremio, database utilities
