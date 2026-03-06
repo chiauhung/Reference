@@ -1,0 +1,134 @@
+name: See file change 
+
+on:
+  pull_request:
+    types: [labeled]
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - "**/README.md"
+      - "**/CHANGELOG.md"
+      - "**/pyproject.toml"
+  workflow_dispatch:
+
+env:
+  PYTHON_VERSION: "3.11"
+
+jobs:
+  get-changed-files:
+    name: Get Files Changed
+    runs-on: ubuntu-latest
+    outputs:
+      environment: ${{ steps.changed-files.outputs.ENVIRONMENT }}
+      all_changed_files: ${{ steps.changed-files.outputs.FILES }}
+      print_only: ${{ steps.changed-files.outputs.PRINT_ONLY }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Get changed files based on PR
+        if: ${{ (github.event_name == 'pull_request') && (github.event.label.name == 'sandbox deploy') }}
+        id: changed-files-pr
+        uses: tj-actions/changed-files@v39
+        with:
+          base_sha: ${{ github.event.pull_request.base.sha }}
+          dir_names: "true"
+
+      - name: Get last successful commit push
+        uses: nrwl/nx-set-shas@v3
+        if: ${{ (github.event_name == 'push') || (github.event_name == 'workflow_dispatch') }}
+        id: last_successful_commit_push
+        with:
+          main-branch-name: main
+          workflow-id: 'test-semantic.yml'
+  
+
+      - name: Run changed-files with the commit of the last successful workflow run
+        if: ${{ (github.event_name == 'push') || (github.event_name == 'workflow_dispatch') }}
+        id: changed-files-push
+        uses: tj-actions/changed-files@v39
+        with:
+          base_sha: ${{ steps.last_successful_commit_push.outputs.base }}
+          dir_names: "true"
+      
+      - name: Get changed files
+        id: changed-files
+        run: |
+          if [ -n "${{ steps.changed-files-push.outputs.all_changed_files }}" ]; then
+            echo "FILES=${{ steps.changed-files-push.outputs.all_changed_files }}" >> $GITHUB_OUTPUT
+            echo "ENVIRONMENT=production" >> $GITHUB_OUTPUT
+            echo "PRINT_ONLY=false" >> $GITHUB_OUTPUT
+          else
+            echo "FILES=${{ steps.changed-files-pr.outputs.all_changed_files }}" >> $GITHUB_OUTPUT
+            echo "ENVIRONMENT=developement" >> $GITHUB_OUTPUT
+            echo "PRINT_ONLY=true" >> $GITHUB_OUTPUT
+          fi
+
+      # - name: Get changed files (first run only)
+      #   id: changed-files
+      #   run: |
+      #       echo "FILES=('project_1','project_2')" >> $GITHUB_OUTPUT
+      #       echo "ENVIRONMENT=production" >> $GITHUB_OUTPUT
+      #       echo "PRINT_ONLY=false" >> $GITHUB_OUTPUT
+
+  release:
+    name: Release
+    needs: get-changed-files
+    runs-on: ubuntu-latest
+    environment:
+      name: ${{ needs.get-changed-files.outputs.environment }}
+    env:
+      CHANGED_FILES: ${{ needs.get-changed-files.outputs.all_changed_files }}
+      PRINT_ONLY: ${{ needs.get-changed-files.outputs.print_only }}
+      GH_TOKEN: ${{ secrets.GH_TOKEN }}
+
+    permissions:
+      id-token: write
+      contents: write
+      pull-requests: write
+    steps:
+      - name: "Check out GitHub repository"
+        uses: actions/checkout@v3
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+
+      - name: "Setup Python"
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: "pip"
+
+      - name: "Load cached .venv"
+        id: cached-poetry-dependencies
+        uses: actions/cache@v2
+        with:
+          path: ${{ env.pythonLocation }}
+          key: ${{ env.pythonLocation }}-${{ hashFiles('**/poetry.lock') }}
+      
+      - name: "Install Python semantic release"
+        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
+        shell: bash
+        run: |
+          pip install python-semantic-release==8.1.1
+
+      - name: List file changes
+        run: |
+          echo "List all the files that have changed: ${{ env.CHANGED_FILES }}"
+
+      - name: Deploy app-cdc-stream
+        if: contains(env.CHANGED_FILES, 'project_1')
+        working-directory: ./app/project_1
+        run: |
+          python ../../semantic-release.py --project=project_1 --project_path=$(pwd) --print_only=${{ env.PRINT_ONLY }} --force
+
+      - name: Deploy cloud function
+        if: contains(env.CHANGED_FILES, 'project_2')
+        working-directory: ./app/project_2
+        run: |
+          python ../../semantic-release.py --project=project_2 --project_path=$(pwd) --print_only=${{ env.PRINT_ONLY }} --force
+
+

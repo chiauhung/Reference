@@ -1,0 +1,43 @@
+name: Modal Lab Deployment (Custom)
+
+on:
+  workflow_dispatch:
+    inputs:
+      project:
+        type: choice
+        description: Project Name to Deploy
+        options: 
+        - fit-score-recalculation
+        - thematic-analysis
+      environment:
+        type: environment
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    environment: 
+      name: ${{ github.event.inputs.environment }}
+    env:
+      MODAL_TOKEN_ID: ${{ secrets.MODAL_TOKEN_ID }}
+      MODAL_TOKEN_SECRET: ${{ secrets.MODAL_TOKEN_SECRET }}
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Install Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.10"
+
+      - name: Install Modal
+        run: |
+          python -m pip install --upgrade pip
+          pip install modal
+
+      - name: Deploy job
+        if: ${{ github.event.inputs }} == 'fit-score-recalculation'
+        working-directory: app/fit-score-recalculation
+        run: |
+          modal deploy --env dev modal_app.py

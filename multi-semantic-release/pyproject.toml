@@ -1,0 +1,41 @@
+[tool.poetry]
+name = "Pulsifi DE monorepo multi-semantic"
+version = "0.0.0"
+description = "All in One."
+authors = ["Data Engineering Team <de-team@pulsifi.me>"]
+readme = "README.md"
+packages = [{ include = "app" }]
+
+
+[tool.poetry.dependencies]
+python = ">=3.11,<3.12"
+
+[tool.poetry.group.dev.dependencies]
+black = "^23.7.0"
+flake8 = "^6.1.0"
+isort = "^5.12.0"
+jupyter = "^1.0.0"
+commitizen = "^3.10.0"
+
+[tool.poetry.group.test.dependencies]
+pytest = "^7.4.0"
+pytest-cov = "^4.1.0"
+
+[tool.poetry.group.release.dependencies]
+pulumi = "^3.78.1"
+pulumi-gcp = "^6.62.0"
+pulumi-docker = "^4.3.2"
+python-semantic-release = "8.1.1"
+poetry = "^1.6.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.semantic_release]
+version_variables = ["pyproject.toml:tool.poetry.version"]
+version_toml = ["pyproject.toml:tool.poetry.version"]
+branch = "main"
+upload_to_pypi = false
+upload_to_vcs_release = true
+build_command = "pip install poetry && poetry build"

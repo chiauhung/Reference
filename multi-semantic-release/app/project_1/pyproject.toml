@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "Project 1"
+version = "2023.10.18513"
+description = "Project 1."
+authors = ["Data Engineering Team <de-team@pulsifi.me>"]
+readme = "README.md"
+packages = [{ include = "app" }]
+
+[tool.poetry.dependencies]
+python = ">=3.11,<3.12"
+structlog = "^22.1.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.semantic_release]
+version_variables = ["pyproject.toml:tool.poetry.version"]
+version_toml = ["pyproject.toml:tool.poetry.version"]
+branch = "main"
+upload_to_pypi = false
+upload_to_vcs_release = true
+build_command = "pip install poetry && poetry build"
